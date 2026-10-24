@@ -40,8 +40,8 @@ from identity_intent import IdentityGraph, IntentGate  # noqa: E402
 from rules import RuleBook  # noqa: E402
 from engine import Engine  # noqa: E402
 from classify import choose_citation, parse_time  # noqa: E402
-from steps import (build_findings, build_remediations,  # noqa: E402
-                   build_verifications, sort_steps)
+from steps import (build_complete_verifications, build_findings,  # noqa: E402
+                   build_remediations, build_verifications, sort_steps)
 
 _LOCK = threading.Lock()
 _ENGINE = None
@@ -236,9 +236,39 @@ def _simulate(case_id, fixed):
         observed = _ENGINE._observed_ids(
             joined, lanes, row["audit_at"], subject,
             row.get("requested_at"))
-        verifications, _ = build_verifications(
-            remaining, remediations, lanes, observed)
-        steps = sort_steps(remaining + remediations + verifications)
+        unknown_shapes = [lane for lane in lanes
+                          if lane["verdict"]["state_kind"]
+                          == "UNKNOWN_SHAPE"]
+        if remaining:
+            verifications, _ = build_verifications(
+                remaining, remediations, lanes, observed)
+            steps = sort_steps(remaining + remediations + verifications)
+            sim_status = "INCOMPLETE"
+        elif unknown_shapes:
+            # Mirrors engine.adjudicate: unknown-shape lanes block
+            # COMPLETE even with zero findings.
+            steps = []
+            sim_status = "INCOMPLETE"
+        else:
+            # Mirrors engine.adjudicate's COMPLETE branch: verification
+            # steps come from build_complete_verifications, not from
+            # the INCOMPLETE-path builder (which understated COMPLETE
+            # cases). Citations built exactly as adjudicate builds
+            # them, including the security-service audit alias.
+            citations = {}
+            for lane in lanes:
+                citing = choose_citation(lane["records"], lane["verdict"])
+                if citing is not None:
+                    citations[(lane["logical_system"], lane["resource"])] = \
+                        citing.get("source_file_id") or ""
+                    if lane["verdict"]["category"] == "SECURITY_AUDIT_LOG":
+                        citations[("security_service",
+                                   lane["resource"])] = \
+                            citing.get("source_file_id") or ""
+            verifications, _ = build_complete_verifications(
+                lanes, observed, citations)
+            steps = sort_steps(verifications)
+            sim_status = "COMPLETE"
     latency_ms = round((time.perf_counter() - started) * 1000, 1)
     fixed_findings = [f["resource_id"] for f in findings
                       if f["resource_id"] in set(fixed)]
@@ -250,7 +280,7 @@ def _simulate(case_id, fixed):
         "remaining_findings": [
             {"system_id": f["system_id"], "resource_id": f["resource_id"],
              "operation": f["operation"]} for f in remaining],
-        "status": "INCOMPLETE" if remaining else "COMPLETE",
+        "status": sim_status,
         "steps": steps,
         "latency_ms": latency_ms,
         "note": "Simulation only: the engine re-ran its own step "

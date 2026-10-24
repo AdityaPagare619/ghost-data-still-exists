@@ -84,6 +84,20 @@ EN_DELETION = "Please delete my account and all of my personal data."
 ES_DELETION = "Por favor, elimina mi cuenta y todos mis datos personales."
 MARKETING_ONLY = ("Please stop sending me promotional emails, but do not "
                   "delete my account or any of my data.")
+# Negation fixtures use the same fixed-template discipline as
+# MARKETING_ONLY: the fixture declares a template key, the translator
+# maps it to one verified sentence. No free text ever flows from a
+# fixture into the engine. KO/JA sentences are grounded in dataset
+# sentences (case_66 / case_78) with the attested negation inserted.
+NEGATION_TEMPLATES = {
+    "dont-delete-account": "Don't delete my account.",
+    "mixed-photos-account":
+        "Don't delete my photos, delete my account.",
+    "ko-negated":
+        "이 이메일 주소에 연결된 계정의 영구 삭제를 요청하지 않습니다.",
+    "ja-negated":
+        "このメールアドレスに関連するアカウントの完全な削除を依頼しません。",
+}
 
 
 class Untranslatable(Exception):
@@ -440,6 +454,13 @@ def pick_request_text(bundle, title="", summary=""):
     """Request text from bundle description ONLY, never from expected."""
     request = bundle.get("request") or {}
     language = request.get("language", "en")
+    if request.get("intent") == "negation":
+        template = request.get("template", "dont-delete-account")
+        if template not in NEGATION_TEMPLATES:
+            raise Untranslatable(
+                "bundle negation template %r has no verified sentence"
+                % (template,))
+        return NEGATION_TEMPLATES[template]
     if request.get("intent") and request["intent"] != "deletion":
         raise Untranslatable(
             "bundle request intent %r has no request-text mapping"

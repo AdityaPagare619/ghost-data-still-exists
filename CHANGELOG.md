@@ -4,6 +4,37 @@ Every code edit and every architecture change is tracked here and
 committed to the project repo, so the founder can review each step
 as a diff. Dates are IST. Numbers are measured runs, never estimates.
 
+## 2026-10-25 — Architecture pass (full solution, no fake demos)
+
+- Intent negation fix (the judge's #1 recommendation, founder's
+  full-architecture order): negation now scopes to the verb's own
+  clause (a whole-prefix check negated a later real verb with an
+  earlier clause's don't); contracted n't fixed (no word boundary
+  before the n, so "Don't delete my account." read as DELETION);
+  KO/JA post-verbal scope added, including polite ません. All 15
+  unit phrasings pass; 518-case census diff: ZERO flips (no main
+  request uses these phrasings — the fix closes the hidden-case
+  hole with no regression on known data).
+- Four frozen adversarial fixtures (ADV-10 bare refusal, ADV-11
+  mixed sentence + ACTIVE profile, ADV-12 Korean negation, ADV-13
+  Japanese negation) via fixed-template translator entries (no free
+  text from fixtures into the engine). Adversarial now 12/13 — the
+  only failure remains disclosed ADV-06 (ledger flag, verdict and
+  steps exact). Mutations 8/8, sample gate PASS, unchanged.
+- Demo honesty: atlas corrected to 94 evidence files (103 is
+  evidence plus dataset CSVs); simulator now routes empty-findings
+  cases through the COMPLETE verification builder — verified live
+  that simulate(case_26, []) equals adjudication (COMPLETE, 5
+  steps), where it previously returned 2. Nothing on screen is
+  simulated-as-real: simulations stay labeled, latency stays
+  measured.
+- README names the two-phase bitemporal design explicitly
+  (Phase 2A lifetime ownership vs Phase 2B point-in-time state).
+- Repo cleanup (approved structure): tooling scripts and run
+  intermediates relocated to workspace tools/; .gitignore covers
+  regenerable outputs; harness, reports, cache, and transcriptions
+  stay. Post-cleanup driver re-run: identical green state.
+
 ## 2026-10-25 — Layer-1, quota saga, and repo tracking
 
 - Layer-1 (Gemini) refresh: VLM cross-check complete (15/15 binaries);

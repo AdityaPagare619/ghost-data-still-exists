@@ -37,7 +37,14 @@ an in-memory index, adjudicates every case, and writes `output.csv`
    per-resource lanes from records at or before each case's
    `audit_at` (record granularity, boundary inclusive). Post-audit
    evidence never fixes a verdict. `reported_status` and workflow
-   SUCCESS claims are never read in the verdict path.
+   SUCCESS claims are never read in the verdict path. The linker is
+   two-phase by design: Phase 2A (lifetime ownership — a resource
+   belongs to the subject if linked at ANY time ≤ `audit_at`, via an
+   identifier, an earlier snapshot, a declared pointer, or a
+   subject-keyed trace) is separated from Phase 2B (point-in-time
+   state — the latest state of each owned resource at or before
+   `audit_at`). Ownership without a state, and a state without
+   ownership, each prove nothing on their own.
 4. **Shape classification (classify.py, detectors.py).** Records are
    classified by shape, never by system name (the case_12 analytics
    record is a one-row contact lookup on an old hash, so it deletes;

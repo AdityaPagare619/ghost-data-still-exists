@@ -682,6 +682,7 @@ _NON_DELETION_ACTIONS: Dict[str, Tuple[str, ...]] = {
 _RESTRICTION_MARKERS: Dict[str, Tuple[str, ...]] = {
     "en": (r"\bonly\b", r"except", r"without removing", r"do not\b",
            r"don't\b", r"dont\b", r"not a request to", r"not asking for",
+           r"\bnever\b",
            r"\bkeep\b", r"leave .* (active|in place)", r"continue using",
            r"still (need|want|use)", r"as it is"),
     "pt": (r"\bapenas\b", r"somente", r"n[aã]o (apagar|excluir|eliminar)",
@@ -689,8 +690,8 @@ _RESTRICTION_MARKERS: Dict[str, Tuple[str, ...]] = {
     "es": (r"\bsolo\b", r"solamente", r"no (eliminar|borrar)",
            r"mantener", r"seguir usando"),
     "fr": (r"\bseulement\b", r"ne pas", r"garder", r"continuer"),
-    "ko": (r"만\b", r"유지", r"삭제하지"),
-    "ja": (r"のみ", r"削除しない", r"維持"),
+    "ko": (r"만\b", r"유지", r"삭제하지", r"하지"),
+    "ja": (r"のみ", r"削除しない", r"しない", r"ません", r"維持"),
 }
 
 # Explicit whole-cancellation declarations (cancel regardless of object).
@@ -951,18 +952,41 @@ class IntentGate:
         # quiero eliminar mi cuenta" read as a deletion request (mutation
         # catch). "No longer" is discontinuation, not negation — strip it
         # first so "no longer use ... permanently deleted" is not negated.
+        # Contracted n't has no word boundary before the n ("don't" =
+        # d-o-n-'-t), so \bn['’]t\b never matches it: bare "Don't
+        # delete my account." read as DELETION. Match n't as a suffix
+        # instead (every English n't-form is a negation); "dont"
+        # without apostrophe is attested in the restriction lexicon.
         negations = {
-            "en": r"\b(without|not|n['’]t|never)\b",
+            "en": r"\b(without|not|never|dont)\b|n['’]t\b",
             "pt": r"\b(sem|n[aã]o|nunca)\b",
             "es": r"\b(sin|no|nunca)\b",
             "fr": r"\b(sans|ne|pas|jamais)\b",
             "ko": r"(하지|않)",
-            "ja": r"(しない|せず)",
-        }.get(language, r"\b(without|not|n['’]t|never)\b")
+            "ja": r"(しない|ません|せず|ない)",
+        }.get(language, r"\b(without|not|never|dont)\b|n['’]t\b")
         for pattern in _lex(language, _DELETION_TOKENS):
             for match in re.finditer(pattern, lowered):
-                prefix = re.sub(r"no longer", "", lowered[:match.start()])
+                # Negation scopes to the verb's OWN CLAUSE, not the whole
+                # sentence: "Don't delete my photos, delete my account"
+                # must count the second verb. A whole-prefix check
+                # negates it with the first clause's "don't". Clause
+                # boundaries: comma, semicolon, and/but joins.
+                bounds = [m.end() for m in re.finditer(
+                    r"[,;]|\band\b|\bbut\b", lowered[:match.start()])]
+                clause_start = bounds[-1] if bounds else 0
+                prefix = re.sub(
+                    r"no longer", "", lowered[clause_start:match.start()])
                 if re.search(negations, prefix):
+                    continue
+                # Verb-final languages (ko/ja) put negation AFTER the
+                # verb: "삭제하지" (don't delete), "削除しない" (don't
+                # delete). A prefix-only check misses it, so check the
+                # same sentence's suffix too — ko/ja only, since
+                # pre-verbal languages scope negation before the verb
+                # and a suffix check there would misread restrictions.
+                if language in ("ko", "ja") and re.search(
+                        negations, lowered[match.end():]):
                     continue
                 return match.group(0)
         # "close" is a deletion verb only with an account object AND a

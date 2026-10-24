@@ -3,3 +3,11 @@ __pycache__/
 *.pyc
 .DS_Store
 code.zip
+# Evaluation run outputs regenerate on every driver run; the reports
+# quote their numbers inline, and the raw files live in workspace
+# tools/ as evidence. Never committed.
+code/evaluation/*_report.json
+code/evaluation/diff_report.json
+code/evaluation/summary.json
+code/evaluation/*.jsonl
+code/evaluation/telemetry.json
