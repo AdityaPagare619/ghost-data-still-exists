@@ -1,0 +1,143 @@
+{
+  "model": "gemini-2.5-flash",
+  "status": "partial: 11 job failures",
+  "calls": [
+    {
+      "job": "intent",
+      "key": "intent:e08d4b7d8fb89a24",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:e5ea9e72b43024e2",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:e83fa9b7efcb04fe",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:e997c55fedd07e36",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:f4f8d7da477b9fd8",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:fe357038dc3ba645",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "intent",
+      "key": "intent:fea08d8c85eb8352",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "support",
+      "key": "support:9d4e777f2164b5a5",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "support",
+      "key": "support:3507f1af3920d30f",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "support",
+      "key": "support:a3601eca5771a5ed",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "job": "support",
+      "key": "support:37d22f41d2b65081",
+      "model": "gemini-2.5-flash",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_ms": 0,
+      "attempts": 2,
+      "status": "failed: HTTPError: HTTP Error 404: Not Found"
+    }
+  ],
+  "totals": {
+    "calls": 11,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "per_request_cost_usd": 0.0,
+    "per_request_tokens": 0.0,
+    "avg_latency_ms": 0
+  },
+  "jobs": {
+    "vlm": {
+      "binaries": 15,
+      "failed": 0,
+      "verified_ids_in_vlm": 11,
+      "verified_ids_missing": 2
+    },
+    "intent": {
+      "templates": 50,
+      "agree": 35,
+      "failed": 7
+    },
+    "support": {
+      "threads": 4,
+      "failed": 4
+    }
+  }
+}

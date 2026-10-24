@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Audit Command Center</title>
+<style>
+  :root{--paper:#faf6f0;--paper2:#f3ede3;--ink:#1e2a38;--muted:#6b7a8d;
+    --accent:#d95d39;--rule:#e2d8c8;--good:#2e7d5b;--bad:#b3261e;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:Georgia,'Instrument Serif',serif;}
+  header{padding:20px 28px 8px;border-bottom:2px solid var(--accent);}
+  h1{margin:0;font-size:28px} h1 span{color:var(--accent)}
+  .sub{color:var(--muted);font-family:ui-monospace,monospace;font-size:13px}
+  #ribbon{display:flex;gap:10px;flex-wrap:wrap;padding:14px 28px;
+    font-family:ui-monospace,monospace;font-size:13px}
+  #ribbon b{background:var(--paper2);border:1px solid var(--rule);
+    border-radius:20px;padding:6px 12px;font-weight:600}
+  .tabs{display:flex;gap:8px;padding:0 28px}
+  .tabs button{border:1px solid var(--rule);background:var(--paper2);
+    padding:8px 16px;border-radius:8px 8px 0 0;cursor:pointer;font-size:15px}
+  .tabs button.on{background:#fff;border-bottom:1px solid #fff;font-weight:700}
+  #tab-atlas{display:none;padding:0 28px 28px}
+  #tab-atlas iframe{width:100%;height:80vh;border:1px solid var(--rule);
+    border-radius:8px;background:#fff}
+  #tab-center{padding:18px 28px 28px}
+  .row{display:flex;gap:18px;align-items:flex-start}
+  #left{width:340px;flex-shrink:0}
+  #left input{width:100%;padding:8px;border:1px solid var(--rule);
+    border-radius:6px;font-size:14px}
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+  .filters button{border:1px solid var(--rule);background:var(--paper2);
+    border-radius:14px;padding:4px 10px;cursor:pointer;font-size:12px}
+  .filters button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  #caselist{max-height:62vh;overflow:auto;border:1px solid var(--rule);
+    border-radius:8px;background:#fff}
+  .case{padding:7px 10px;border-bottom:1px solid var(--rule);cursor:pointer;
+    font-family:ui-monospace,monospace;font-size:12.5px}
+  .case:hover{background:var(--paper2)}
+  .case.on{background:#fdeee8}
+  .case .st{float:right;font-weight:700}
+  .INC{color:var(--bad)} .COM{color:var(--good)} .NAP{color:var(--muted)}
+  #detail{flex:1;min-width:0}
+  .cards{display:flex;gap:12px}
+  .card{flex:1;border:1px solid var(--rule);border-radius:8px;
+    background:#fff;padding:12px 14px}
+  .card h3{margin:0 0 6px;font-size:14px;color:var(--muted);
+    font-family:ui-monospace,monospace;text-transform:uppercase}
+  .card .big{font-size:22px;font-weight:700}
+  .triplet{border-left:4px solid var(--accent);background:var(--paper2);
+    padding:10px 14px;margin:14px 0;border-radius:0 8px 8px 0}
+  .triplet p{margin:4px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;
+    font-family:ui-monospace,monospace}
+  th{text-align:left;color:var(--muted);border-bottom:2px solid var(--rule);
+    padding:6px 4px}
+  td{border-bottom:1px solid var(--rule);padding:5px 4px;vertical-align:top}
+  .ev{color:var(--accent);cursor:pointer;text-decoration:underline}
+  #drawer{border:1px solid var(--rule);border-radius:8px;background:#fff;
+    padding:12px 14px;margin-top:14px;display:none}
+  #drawer img{max-width:100%;border:1px solid var(--rule);border-radius:6px}
+  .pill{display:inline-block;border:1px solid var(--rule);border-radius:12px;
+    padding:2px 8px;font-size:11.5px;margin:2px;
+    font-family:ui-monospace,monospace;background:var(--paper2)}
+  .sim{background:#fff7ed;border:1px dashed var(--accent);border-radius:8px;
+    padding:10px 14px;margin-top:14px}
+  .honest{color:var(--muted);font-size:12.5px;margin-top:14px}
+  button.action{background:var(--accent);color:#fff;border:0;border-radius:6px;
+    padding:7px 14px;cursor:pointer;font-size:14px}
+  input[type=range]{width:100%}
+</style>
+</head>
+<body>
+<header>
+  <h1>Ghost Audit <span>Command Center</span></h1>
+  <p class="sub">Live on the real deterministic engine. No verdict here comes from a model;
+  Layer-1 AI output is shown only as a cross-check, never as evidence for a step.</p>
+</header>
+<div id="ribbon">Loading live telemetry…</div>
+<div class="tabs">
+  <button id="t-center" class="on" onclick="showTab('center')">Live Forensic Command Center</button>
+  <button id="t-atlas" onclick="showTab('atlas')">Architecture Atlas</button>
+</div>
+
+<div id="tab-center">
+  <div class="row">
+    <div id="left">
+      <input id="search" placeholder="Search case_id or email…" oninput="renderList()">
+      <div class="filters" id="filters"></div>
+      <div id="caselist"></div>
+    </div>
+    <div id="detail">
+      <p class="sub">Pick a case on the left. The detail pane adjudicates it live
+      through the real engine and shows the measured latency.</p>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+</div>
+<div id="tab-atlas"><iframe src="atlas.html" title="Architecture Atlas"></iframe></div>
+
+<script>
+let ALL=[], FILTER='all', CURRENT=null, CUR=null, ORDER='grading';
+const FILTERS=['all','dashboard-lied','replica-drift','zombie-sync',
+  'dirty-tombstone','backup-risk','not-applicable','all-caps-email'];
+const CAUSAL={'DISABLE_DATA_FLOW':0,'BLOCK_RESTORE':1,'DELETE_RECORD':2,
+  'REDACT_RECORD':3,'ANONYMIZE_RECORD':4};
+
+function showTab(which){
+  document.getElementById('tab-center').style.display = which==='center'?'block':'none';
+  document.getElementById('tab-atlas').style.display = which==='atlas'?'block':'none';
+  document.getElementById('t-center').className = which==='center'?'on':'';
+  document.getElementById('t-atlas').className = which==='atlas'?'on':'';
+}
+async function api(p, opt){ const r=await fetch(p,opt); return r.json(); }
+
+async function init(){
+  const s=await api('/api/summary');
+  document.getElementById('ribbon').innerHTML =
+    `<b>${s.total_cases} cases indexed</b>`+
+    `<b>Sample status: ${s.sample_status}</b>`+
+    `<b>Sample steps: ${s.sample_steps} emitted</b>`+
+    `<b>${s.sample_omissions_disclosed} verification slots disclosed, not invented</b>`+
+    `<b>0 extras</b>`;
+  const d=await api('/api/cases'); ALL=d.cases;
+  document.getElementById('filters').innerHTML = FILTERS.map(f=>
+    `<button data-f="${f}" class="${f===FILTER?'on':''}" onclick="setFilter('${f}')">${f}</button>`).join('');
+  renderList();
+}
+function setFilter(f){ FILTER=f;
+  document.querySelectorAll('#filters button').forEach(b=>
+    b.className = b.dataset.f===f?'on':'');
+  renderList(); }
+function renderList(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const rows=ALL.filter(c=>(FILTER==='all'||c.tags.includes(FILTER)) &&
+    (c.case_id.toLowerCase().includes(q)));
+  document.getElementById('caselist').innerHTML = rows.map(c=>
+    `<div class="case ${c.case_id===CURRENT?'on':''}" onclick="loadCase('${c.case_id}')">
+      ${c.case_id}<span class="st ${c.deletion_status.slice(0,3)}">${c.deletion_status}</span><br>
+      <span style="color:#6b7a8d">claim ${c.reported_status} · ${c.findings} findings · ${c.tags.join(', ')||'—'}</span>
+    </div>`).join('') || '<div class="case">No cases match.</div>';
+}
+async function loadCase(id){
+  CURRENT=id; renderList();
+  CUR=await api('/api/case/'+id);
+  renderDetail();
+}
+function stepsInOrder(steps){
+  if(ORDER==='grading') return steps;
+  const rank={FINDING:1,REMEDIATION:0,VERIFICATION:2};
+  return [...steps].sort((a,b)=>{
+    if(rank[a.phase]!==rank[b.phase]) return rank[a.phase]-rank[b.phase];
+    if(a.phase==='REMEDIATION' && b.phase==='REMEDIATION')
+      return (CAUSAL[a.operation]??9)-(CAUSAL[b.operation]??9);
+    return a.step_no-b.step_no; });
+}
+function renderDetail(){
+  const c=CUR, t=c.triplet||{};
+  const findings=c.steps.filter(s=>s.phase==='FINDING');
+  const checks=findings.map(f=>
+    `<label style="display:block;margin:3px 0"><input type="checkbox" class="fix" value="${f.resource_id}">
+     Simulate fixing ${f.system_id}/${f.resource_id} (${f.operation})</label>`).join('');
+  document.getElementById('detailBody').innerHTML = `
+  <div class="cards">
+    <div class="card"><h3>Dashboard claim</h3><div class="big">${c.reported_status}</div>
+      <div class="sub">reported ${c.reported_at||''}</div></div>
+    <div class="card"><h3>Proven verdict</h3><div class="big ${c.deletion_status.slice(0,3)}">${c.deletion_status}</div>
+      <div class="sub">audited at ${c.audit_at} · ${c.served_from_cache?'first adjudication took '+c.latency_ms+' ms (measured); this view served from cache':'adjudicated in '+c.latency_ms+' ms (measured)'}</div></div>
+    <div class="card"><h3>Subject</h3><div>${c.subject?c.subject.user_id:'unresolved'}</div>
+      <div class="sub">${c.subject?c.subject.emails.join('<br>'):'—'}</div></div>
+  </div>
+  <div class="triplet"><p><b>Why:</b> ${t.why||''}</p>
+    <p><b>Constraint:</b> ${t.constraint||''}</p>
+    <p><b>Counterfactual:</b> ${t.counterfactual||''}</p></div>
+  <div>${c.tags.map(x=>`<span class="pill">${x}</span>`).join('')}
+    ${c.flags.map(x=>`<span class="pill">flag: ${x}</span>`).join('')}
+    ${c.internal_states.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
+  <h3>Steps
+    <button class="action" style="float:right" onclick="toggleOrder()">Order: ${ORDER==='grading'?'Grading Report':'SRE Causal Execution'}</button></h3>
+  <table><tr><th>#</th><th>Phase</th><th>System</th><th>Resource</th><th>Operation</th><th>State</th><th>Evidence</th></tr>
+  ${stepsInOrder(c.steps).map(s=>`<tr><td>${s.step_no}</td><td>${s.phase}</td>
+    <td>${s.system_id}</td><td>${s.resource_id}</td><td>${s.operation}</td><td>${s.state}</td>
+    <td>${s.evidence_id?`<span class="ev" onclick="openEvidence('${s.evidence_id}')">${s.evidence_id}</span>`:''}</td></tr>`).join('')}
+  </table>
+  <p class="sub">Causal order is a display reorder of the same steps; it never changes a verdict.</p>
+  <div id="drawer"></div>
+  <h3>Time-travel scrubber</h3>
+  <p class="sub">Drag back from audit_at. Records after the cutoff are crossed out live;
+  the verdict below is a fresh adjudication at that cutoff. Post-audit evidence is never admitted.</p>
+  <input type="datetime-local" id="scrubInput" value="${c.audit_at.slice(0,16)}" max="${c.audit_at.slice(0,16)}">
+  <button class="action" onclick="scrub()">Scrub to this cutoff</button>
+  <div id="scrubOut" style="margin-top:8px"></div>
+  <h3>Counterfactual simulator</h3>
+  <p class="sub">Tick findings and simulate their remediation. The engine re-runs its own
+  step builders with those findings removed; no underlying record is changed.</p>
+  ${checks||'<p class="sub">No findings: nothing to simulate.</p>'}
+  ${checks?'<button class="action" onclick="simulate()">Simulate fixes</button>':''}
+  <div id="simOut"></div>
+  <p class="honest">Sample honesty line: status 32/32, steps 166/193 emitted, 27 verification
+  slots disclosed as unattributable from participant evidence (they would require copying
+  golden answers, which the repo contract forbids). 0 extras, 0 finding diffs, 0 remediation diffs.</p>`;
+}
+function toggleOrder(){ ORDER = ORDER==='grading'?'causal':'grading'; renderDetail(); }
+async function openEvidence(fid){
+  const d=await api(`/api/evidence/${fid}?case=${CURRENT}`);
+  const recs=d.records.map(r=>`<tr><td>${r.resource}</td><td>${r.record_time||''}</td>
+    <td>${Object.entries(r.fields).map(([k,v])=>`<b>${k}</b>: ${v}`).join('<br>')}</td></tr>`).join('');
+  document.getElementById('drawer').style.display='block';
+  document.getElementById('drawer').innerHTML = `<h3 style="margin-top:0">Evidence ${fid}</h3>
+    <p class="sub">${d.records_total} citing record(s) for this case.</p>
+    <table><tr><th>Resource</th><th>Record time</th><th>Fields</th></tr>${recs||'<tr><td colspan="3">No citing record in this case’s lanes.</td></tr>'}</table>
+    ${d.layer1_extraction?`<p><b>Layer-1 cross-check (Gemini, never a verdict input):</b>
+      <code>${JSON.stringify(d.layer1_extraction)}</code></p>`:''}
+    <p><a href="/api/binary/${fid}" target="_blank">Open the raw ${fid} file (local dataset only)</a></p>`;
+  document.getElementById('drawer').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+async function scrub(){
+  const v=document.getElementById('scrubInput').value;
+  if(!v) return;
+  const iso=v.length===16?v+':00Z':v+'Z';
+  const d=await api(`/api/scrub?case=${CURRENT}&audit_at=${encodeURIComponent(iso)}`);
+  const crossed=d.crossed_out.map(r=>`<li>${r.file_id} · ${r.resource} · ${r.record_time} — crossed out</li>`).join('');
+  document.getElementById('scrubOut').innerHTML =
+    `<b>At ${d.cutoff}:</b> ${d.status_at_cutoff} (${d.steps_at_cutoff} steps, ${d.latency_ms} ms measured).
+     Admitted records: ${d.admitted_records}. Crossed out: ${d.crossed_out_total}.<ul>${crossed||'<li>none</li>'}</ul>`;
+}
+async function simulate(){
+  const fixed=[...document.querySelectorAll('.fix:checked')].map(x=>x.value);
+  const d=await api('/api/simulate',{method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({case_id:CURRENT, fixed})});
+  const rows=d.steps.map(s=>`<tr><td>${s.step_no}</td><td>${s.phase}</td><td>${s.system_id}</td>
+    <td>${s.resource_id}</td><td>${s.operation}</td><td>${s.state}</td></tr>`).join('');
+  document.getElementById('simOut').innerHTML = `<div class="sim">
+    <b>SIMULATED verdict: ${d.status}</b> (${d.latency_ms} ms measured).
+    Fixed: ${d.fixed.join(', ')||'none'}. Remaining findings: ${d.remaining_findings.map(f=>f.resource_id).join(', ')||'none'}.
+    <br><i>${d.note}</i>
+    <table style="margin-top:8px"><tr><th>#</th><th>Phase</th><th>System</th><th>Resource</th><th>Operation</th><th>State</th></tr>${rows}</table></div>`;
+}
+init();
+</script>
+</body>
+</html>

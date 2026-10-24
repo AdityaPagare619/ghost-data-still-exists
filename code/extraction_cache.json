@@ -1,0 +1,591 @@
+{
+  "entries": {
+    "intent:0258acb05d5b1d50": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The request asks to verify the status of a past deletion, which is a form of access request."
+      }
+    },
+    "intent:02cb71843a879cb7": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the complete deletion of their account associated with the email address."
+      }
+    },
+    "intent:0ec1d671ba4b09d1": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The request explicitly asks to begin the deletion process for the account."
+      }
+    },
+    "intent:0f6d454873a8fd8b": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly states they want their account closed, which is interpreted as a request for deletion."
+      }
+    },
+    "intent:1a719ac3394333b3": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The customer explicitly requests to close their account and delete all associated personal data."
+      }
+    },
+    "intent:1d0dfb4f78d9d1e3": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "subset_only",
+        "rationale": "The request explicitly asks to remove the user's profile and clean personal details from support conversations, indicating a deletion of specific data subsets."
+      }
+    },
+    "intent:22946944cc802215": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user states they deleted their account but their email address is still recognized, indicating an incomplete deletion."
+      }
+    },
+    "intent:22d463d8dca6bf9f": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The customer explicitly requests the deletion of their entire account."
+      }
+    },
+    "intent:2b37ac8073a8f28c": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the removal of their account and associated personal information."
+      }
+    },
+    "intent:3da302c5030354f4": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user attempted to delete their account but encountered an error."
+      }
+    },
+    "intent:3e972d74e7a20fac": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The request is to audit a past deletion, not to initiate a new deletion or removal of data."
+      }
+    },
+    "intent:4b524b48fc4fb5d7": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "subset_only",
+        "rationale": "The request is for removal from marketing lists only, which is a marketing opt-out request and not a full data deletion."
+      }
+    },
+    "intent:503c7361914a0848": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The request explicitly asks to delete the account and all associated personal data."
+      }
+    },
+    "intent:505c9b928de1de5f": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests permanent deletion of their account."
+      }
+    },
+    "intent:50ef3695cc96bea5": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user closed their account and expects associated data to be deleted, but a data download link is still active, indicating a potential data retention issue."
+      }
+    },
+    "intent:55817c14818a4689": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the deletion of their account and associated data, including previously requested archives and search results."
+      }
+    },
+    "intent:56caf7c88675ca9d": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "subset_only",
+        "rationale": "The request is for a copy of specific invoices, which is an access/export request for a subset of data."
+      }
+    },
+    "intent:570c580a273422cc": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The request explicitly asks for the account to be erased."
+      }
+    },
+    "intent:5971a6c897b9a31d": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user states they changed their email before deleting the account, indicating a deletion request."
+      }
+    },
+    "intent:6235b1d97428c004": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The request asks for a copy of the information held on the account, which is an access/export request, not a deletion request."
+      }
+    },
+    "intent:63cb30b43557b3c0": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user's request to permanently close their account is a clear expression of intent to delete their account and associated data."
+      }
+    },
+    "intent:69be5de4c0988e09": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user is reporting that a previous deletion request was not fully executed as the account and search results are still visible."
+      }
+    },
+    "intent:6d89bdb276613b1d": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "subset_only",
+        "rationale": "The user is requesting the removal of personal information that remains in an internal record after their account was already deleted."
+      }
+    },
+    "intent:6da7030766b99185": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The user is reporting a technical issue regarding a persistent integration after a previous account disconnection rather than requesting the deletion of personal data."
+      }
+    },
+    "intent:7112a7b35915b3a3": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The request is to update an email address, which is a correction or update action rather than a request for account or data deletion."
+      }
+    },
+    "intent:7c71575b0372ee1e": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The sentence is a statement of a completed action rather than a request for account or data deletion."
+      }
+    },
+    "intent:7de76eab318110b5": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the erasure of their account, which falls under the deletion category."
+      }
+    },
+    "intent:89cbf63826bc0fdc": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the deletion of their account and a specific identity document provided to support."
+      }
+    },
+    "intent:951e57c5b8396666": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The user is providing information about a previous email address associated with the account rather than requesting the deletion of data or an account."
+      }
+    },
+    "intent:99536ad8b6cb2be4": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The sentence provides context about a previous email address used on the account but does not request the deletion of any data."
+      }
+    },
+    "intent:a2fd11b9728c9458": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the permanent deletion of their account associated with the provided email address."
+      }
+    },
+    "intent:a344394fa3359552": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the permanent deletion of the account associated with their email address."
+      }
+    },
+    "intent:a8e4533402d43980": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly states their intention to delete their account, which constitutes a deletion request."
+      }
+    },
+    "intent:ab8d29d1408b0a54": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "subset_only",
+        "rationale": "The user is reporting that their account deletion was incomplete and is requesting the removal of remaining data traces in search, support, and analytics."
+      }
+    },
+    "intent:b7c35979d71aa579": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user's statement that they no longer need the account implies a request for its removal or deletion."
+      }
+    },
+    "intent:bae045889200ec1c": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the permanent deletion of their account."
+      }
+    },
+    "intent:bf98820d2e7c5efc": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The user is requesting assistance with resetting their login credentials rather than asking for the deletion of their account or personal data."
+      }
+    },
+    "intent:c55700ee093b5637": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The request is for a marketing opt-out regarding promotional emails, which is specifically categorized as NOT_APPLICABLE according to the provided instructions."
+      }
+    },
+    "intent:c9e45c0d78db1f3a": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "subset_only",
+        "rationale": "The user is reporting that their profile remains visible after account closure, which implies a request to remove the remaining personal data."
+      }
+    },
+    "intent:d40fcecb802ddef8": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The user is reporting a misspelling, which constitutes a request for data correction or update rather than deletion."
+      }
+    },
+    "intent:d46bee231048d4ed": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The customer is explicitly requesting the permanent deletion of their account associated with the provided email address."
+      }
+    },
+    "intent:d4975e9bba854ecc": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the permanent deletion of their account."
+      }
+    },
+    "intent:dac5b773967b8d53": {
+      "job": "intent",
+      "output": {
+        "decision": "DELETION",
+        "limiter": "",
+        "rationale": "The user explicitly requests the permanent deletion of their account, which aligns with the deletion category."
+      }
+    },
+    "intent:e08d4b7d8fb89a24": {
+      "job": "intent",
+      "output": {
+        "decision": "UNKNOWN",
+        "limiter": "",
+        "rationale": "The sentence is a statement of fact regarding the existence of an account and does not contain an explicit request for action."
+      }
+    },
+    "intent:e5ea9e72b43024e2": {
+      "job": "intent",
+      "output": {
+        "decision": "NOT_APPLICABLE",
+        "limiter": "",
+        "rationale": "The user is requesting access to their personal information rather than its deletion."
+      }
+    },
+    "vlm:0919c931c018565e": {
+      "file_id": "evidence_27",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [],
+        "states": []
+      }
+    },
+    "vlm:0c58960759d4821b": {
+      "file_id": "evidence_58",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "support_001"
+        ],
+        "states": []
+      }
+    },
+    "vlm:18b95c1bd8b8956e": {
+      "file_id": "evidence_23",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "export_1261",
+          "export_1260",
+          "export_1259",
+          "export_1258"
+        ],
+        "states": [
+          "Collecting",
+          "Ready",
+          "Packaging"
+        ]
+      }
+    },
+    "vlm:2c246aa5843bec60": {
+      "file_id": "evidence_32",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "backup_9291",
+          "backup_9288",
+          "backup_9287",
+          "backup_9286",
+          "backup_9281"
+        ],
+        "states": [
+          "Healthy"
+        ]
+      }
+    },
+    "vlm:4e4cb259bc2010b6": {
+      "file_id": "evidence_19",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "analytics_7438"
+        ],
+        "states": []
+      }
+    },
+    "vlm:51fa0e6a38f8fa36": {
+      "file_id": "evidence_60",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "marketing_001"
+        ],
+        "states": [
+          "Live"
+        ]
+      }
+    },
+    "vlm:542b7aec17e6b2f3": {
+      "file_id": "evidence_28",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "support_1034"
+        ],
+        "states": []
+      }
+    },
+    "vlm:68c28a72afd6ed18": {
+      "file_id": "evidence_42",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "Support",
+          "Support"
+        ],
+        "states": [
+          "Active",
+          "Active"
+        ]
+      }
+    },
+    "vlm:75afdb0ae53a4510": {
+      "file_id": "evidence_09",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "search_428",
+          "search_1874"
+        ],
+        "states": []
+      }
+    },
+    "vlm:8a6428a899dc8d07": {
+      "file_id": "evidence_55",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "audit_record_003"
+        ],
+        "states": []
+      }
+    },
+    "vlm:96e9a191380c29b9": {
+      "file_id": "evidence_46",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [],
+        "states": []
+      }
+    },
+    "vlm:abe1877efe69fb56": {
+      "file_id": "evidence_18",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [],
+        "states": []
+      }
+    },
+    "vlm:ca59f693f4e70024": {
+      "file_id": "evidence_37",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "audit_record_003",
+          "audit_record_002",
+          "audit_record_001",
+          "audit_record_006",
+          "audit_record_005",
+          "audit_record_004",
+          "account_closure_recorded"
+        ],
+        "states": []
+      }
+    },
+    "vlm:d5c32ca5b6e1a2b4": {
+      "file_id": "evidence_04",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "account_5762",
+          "support_9538"
+        ],
+        "states": []
+      }
+    },
+    "vlm:e81fabc93ea1b5f4": {
+      "file_id": "evidence_14",
+      "job": "vlm",
+      "output": {
+        "resource_ids": [
+          "data_flow_1121",
+          "customer_analytics_warehouse",
+          "data_flow_9846"
+        ],
+        "states": [
+          "Healthy"
+        ]
+      }
+    }
+  },
+  "failures": {
+    "intent:e08d4b7d8fb89a24": {
+      "error": "Gemini call failed (intent/intent:e08d4b7d8fb89a24): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:e5ea9e72b43024e2": {
+      "error": "Gemini call failed (intent/intent:e5ea9e72b43024e2): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:e83fa9b7efcb04fe": {
+      "error": "Gemini call failed (intent/intent:e83fa9b7efcb04fe): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:e997c55fedd07e36": {
+      "error": "Gemini call failed (intent/intent:e997c55fedd07e36): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:f4f8d7da477b9fd8": {
+      "error": "Gemini call failed (intent/intent:f4f8d7da477b9fd8): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:fe357038dc3ba645": {
+      "error": "Gemini call failed (intent/intent:fe357038dc3ba645): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "intent:fea08d8c85eb8352": {
+      "error": "Gemini call failed (intent/intent:fea08d8c85eb8352): HTTPError: HTTP Error 404: Not Found",
+      "job": "intent"
+    },
+    "support:3507f1af3920d30f": {
+      "error": "Gemini call failed (support/support:3507f1af3920d30f): HTTPError: HTTP Error 404: Not Found",
+      "job": "support",
+      "resource": "support_5281"
+    },
+    "support:37d22f41d2b65081": {
+      "error": "Gemini call failed (support/support:37d22f41d2b65081): HTTPError: HTTP Error 404: Not Found",
+      "job": "support",
+      "resource": "support_864"
+    },
+    "support:9d4e777f2164b5a5": {
+      "error": "Gemini call failed (support/support:9d4e777f2164b5a5): HTTPError: HTTP Error 404: Not Found",
+      "job": "support",
+      "resource": "support_4218"
+    },
+    "support:a3601eca5771a5ed": {
+      "error": "Gemini call failed (support/support:a3601eca5771a5ed): HTTPError: HTTP Error 404: Not Found",
+      "job": "support",
+      "resource": "support_6477"
+    }
+  },
+  "model": "gemini-3-flash-preview",
+  "version": 1
+}

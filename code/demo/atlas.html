@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Audit — Architecture Atlas</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#faf6f0;--paper2:#ffffff;--ink:#1e2a38;--muted:#6b7a8d;--rule:#e2ddd4;--accent:#d95d39;--accent-tint:#fdeee8;--link:#2b6cb0}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 64px}
+  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:52px;line-height:1.05;margin:8px 0 12px}
+  .lede{font-size:18px;max-width:760px}
+  .lede em{font-family:"Instrument Serif",Georgia,serif;font-size:21px}
+  .verdict{border:1px solid var(--rule);background:var(--paper2);border-radius:8px;padding:16px 20px;margin:24px 0}
+  .verdict b{color:var(--accent)}
+  figure{margin:40px 0;background:var(--paper2);border:1px solid var(--rule);border-radius:8px;padding:20px}
+  figure h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:30px;margin:0 0 4px}
+  figure .sub{color:var(--muted);margin:0 0 16px;max-width:820px}
+  figcaption{color:var(--muted);font-size:14px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  figcaption b{color:var(--ink)}
+  .figwrap{overflow-x:auto}
+  .figwrap svg{min-width:920px;display:block}
+  .cards{display:grid;grid-template-columns:1.15fr 1fr 1fr 1fr;gap:12px;margin:24px 0}
+  .card{border:1px solid var(--rule);background:var(--paper2);border-radius:8px;padding:14px 16px}
+  .card h3{margin:0 0 6px;font-size:15px}
+  .card p{margin:0;font-size:14px;color:var(--muted)}
+  .card p b{color:var(--ink)}
+  .math{border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint);padding:18px 20px;margin:12px 0}
+  .math code{font-family:ui-monospace,Menlo,monospace;font-size:15px}
+  .math p{margin:8px 0}
+  .inv{list-style:none;padding:0;margin:12px 0}
+  .inv li{padding:6px 0;border-top:1px solid var(--rule);font-size:15px}
+  .inv li:first-child{border-top:0}
+  .shelf{columns:2;column-gap:24px;font-size:14px;color:var(--muted)}
+  .shelf b{color:var(--ink)}
+  .colophon{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);margin-top:40px;padding-top:14px}
+  @media(max-width:700px){.cards{grid-template-columns:1fr 1fr}h1{font-size:38px}.shelf{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Northstar Shop · Deletion Audit Agent · Architecture Atlas</p>
+  <h1>The auditor that proves a negative.</h1>
+  <p class="lede">A customer asks to be deleted, the dashboard says <em>Complete</em>, and weeks later the same email is still “already registered.” This atlas shows the machine that answers <em>are we sure?</em> — with a dated piece of evidence for every claim, and a proof that nothing can come back. Straight answer first: <b>the engine is built and gated on the 32 samples, and this demo runs it live.</b> The figures below are the architecture the running code implements.</p>
+
+
+  <figure>
+    <h2>Figure 1 — The neuro-symbolic layer stack</h2>
+    <p class="sub">Six layers. Models live in exactly one of them. Every verdict is owned by the deterministic layer, and every COMPLETE is signed by a human. Read top to bottom: raw evidence in, proof out.</p>
+    <div class="figwrap">
+    <svg viewBox="0 0 920 640" role="img" aria-labelledby="fig1-title fig1-desc">
+      <title id="fig1-title">Neuro-symbolic layer stack L0 to L5</title>
+      <desc id="fig1-desc">Six layers from evidence index to hash-chained ledger and demo, with the rule engine as focal layer.</desc>
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7a8d"/></marker></defs>
+      <g font-family="system-ui,sans-serif">
+        <rect x="60" y="16" width="800" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <rect x="60" y="16" width="64" height="64" rx="6" fill="#1e2a38"/><text x="92" y="55" text-anchor="middle" font-size="16" font-weight="600" fill="#faf6f0">L0</text>
+        <text x="140" y="42" font-size="17" font-weight="600" fill="#1e2a38">Evidence index — CDC-shaped, offline</text>
+        <text x="140" y="64" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">103 files, structure-classified · record-time ≤ audit_at · own join indexes</text>
+        <line x1="460" y1="80" x2="460" y2="98" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="60" y="102" width="800" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <rect x="60" y="102" width="64" height="64" rx="6" fill="#1e2a38"/><text x="92" y="141" text-anchor="middle" font-size="16" font-weight="600" fill="#faf6f0">L1</text>
+        <text x="140" y="128" font-size="17" font-weight="600" fill="#1e2a38">Semantic AI extraction — bounded, cached, verified</text>
+        <text x="140" y="150" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">Gemini Flash: VLM, intent glosses, support drafts · schema-locked, never a verdict</text>
+        <line x1="460" y1="166" x2="460" y2="184" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="60" y="188" width="800" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <rect x="60" y="188" width="64" height="64" rx="6" fill="#1e2a38"/><text x="92" y="227" text-anchor="middle" font-size="16" font-weight="600" fill="#faf6f0">L2</text>
+        <text x="140" y="214" font-size="17" font-weight="600" fill="#1e2a38">Bitemporal graph + OLAP</text>
+        <text x="140" y="236" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">identity closure · SHA-256 hash closure · per-record temporal horizon</text>
+        <line x1="460" y1="252" x2="460" y2="270" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="60" y="274" width="800" height="64" rx="6" fill="#fdeee8" stroke="#d95d39" stroke-width="2"/>
+        <rect x="60" y="274" width="64" height="64" rx="6" fill="#d95d39"/><text x="92" y="313" text-anchor="middle" font-size="16" font-weight="600" fill="#ffffff">L3</text>
+        <text x="140" y="300" font-size="17" font-weight="600" fill="#1e2a38">7-gate rule engine — owns every verdict</text>
+        <text x="140" y="322" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">15 rules · 8 pillar detectors · citation resolver · sorter · R1-FINAL</text>
+        <line x1="460" y1="338" x2="460" y2="356" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="60" y="360" width="800" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <rect x="60" y="360" width="64" height="64" rx="6" fill="#1e2a38"/><text x="92" y="399" text-anchor="middle" font-size="16" font-weight="600" fill="#faf6f0">L4</text>
+        <text x="140" y="386" font-size="17" font-weight="600" fill="#1e2a38">Drift plane + prevention gate — async</text>
+        <text x="140" y="408" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">5 watchers invalidate drafts · gate blocks any false “Complete” display</text>
+        <line x1="460" y1="424" x2="460" y2="442" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="60" y="446" width="800" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <rect x="60" y="446" width="64" height="64" rx="6" fill="#1e2a38"/><text x="92" y="485" text-anchor="middle" font-size="16" font-weight="600" fill="#faf6f0">L5</text>
+        <text x="140" y="472" font-size="17" font-weight="600" fill="#1e2a38">Hash-chained ledger + live demo</text>
+        <text x="140" y="494" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">proof per case · counterfactuals recomputed by the real engine, in-process</text>
+      </g>
+      <g font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">
+        <rect x="60" y="530" width="800" height="44" rx="6" fill="#faf6f0" stroke="#e2ddd4"/>
+        <text x="460" y="557" text-anchor="middle">MODEL PROPOSES · SYMBOL DISPOSES · HUMAN SIGNS — zero model calls in code/main.py</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>Read it as:</b> L1 is the only place a model may speak, and only in flat JSON that a stdlib validator accepts or rejects. Jev has no layer here — its only honest place is one measured trial cell inside the evaluation report. <b>Chiefs:</b> Oracle/Spanner owns L2 bitemporality; Amazon owns the disagree-test-commit discipline that produced the two-horizon split; J.P. Morgan owns the rich-internal-state projection at L3/L5.</figcaption>
+  </figure>
+
+  <figure>
+    <h2>Figure 2 — The data pipeline, end to end</h2>
+    <p class="sub">Four pipeline stages, four outputs. The evaluation output grades the engine; it never edits it. Nothing here is a mock: the demo runs this same engine in-process.</p>
+    <div class="figwrap">
+    <svg viewBox="0 0 920 560" role="img" aria-labelledby="fig2-title fig2-desc">
+      <title id="fig2-title">Data pipeline from evidence files to outputs</title>
+      <desc id="fig2-desc">Evidence files flow through indexer, identity and intent, and rule engine into four outputs.</desc>
+      <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7a8d"/></marker></defs>
+      <g font-family="system-ui,sans-serif">
+        <rect x="260" y="16" width="400" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="460" y="42" text-anchor="middle" font-size="17" font-weight="600" fill="#1e2a38">Evidence files — 103, multimodal (15 binaries)</text>
+        <text x="460" y="64" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">SQL · JSON · logs · PDFs · PNGs · handover</text>
+        <line x1="460" y1="80" x2="460" y2="98" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="260" y="102" width="400" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="460" y="128" text-anchor="middle" font-size="17" font-weight="600" fill="#1e2a38">Unit 1 — Offline indexer</text>
+        <text x="460" y="150" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">8,769 records · 103 files · 726 row sets</text>
+        <line x1="460" y1="166" x2="460" y2="184" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="260" y="188" width="400" height="64" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="460" y="214" text-anchor="middle" font-size="17" font-weight="600" fill="#1e2a38">Unit 2 — Identity graph + intent gate</text>
+        <text x="460" y="236" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">418 current · 100 historical · 508 deletion · 10 not-applicable</text>
+        <line x1="460" y1="252" x2="460" y2="270" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="260" y="274" width="400" height="64" rx="6" fill="#fdeee8" stroke="#d95d39" stroke-width="2"/>
+        <text x="460" y="300" text-anchor="middle" font-size="17" font-weight="600" fill="#1e2a38">Unit 3 — 7-gate rule engine</text>
+        <text x="460" y="322" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">stdlib only · deterministic · byte-identical reruns</text>
+        <path d="M360,338 V360 Q360,368 368,368 H120 V396" fill="none" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M420,338 V360 Q420,368 428,368 H348 V396" fill="none" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M500,338 V360 Q500,368 508,368 H576 V396" fill="none" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M560,338 V360 Q560,368 568,368 H802 V396" fill="none" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="16" y="400" width="208" height="72" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="120" y="428" text-anchor="middle" font-size="15" font-weight="600" fill="#1e2a38">output.csv</text>
+        <text x="120" y="450" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">518 rows, sorted</text>
+        <rect x="244" y="400" width="208" height="72" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="348" y="428" text-anchor="middle" font-size="15" font-weight="600" fill="#1e2a38">Horizon B ledger</text>
+        <text x="348" y="450" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">hash-chained proof</text>
+        <rect x="472" y="400" width="208" height="72" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="576" y="428" text-anchor="middle" font-size="15" font-weight="600" fill="#1e2a38">Drift invalidations</text>
+        <text x="576" y="450" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">invalidate, never re-emit</text>
+        <rect x="700" y="400" width="204" height="72" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="802" y="428" text-anchor="middle" font-size="15" font-weight="600" fill="#1e2a38">Evaluation reports</text>
+        <text x="802" y="450" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">grade, never edit</text>
+      </g>
+      <g font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">
+        <rect x="16" y="492" width="888" height="44" rx="6" fill="#faf6f0" stroke="#e2ddd4"/>
+        <text x="460" y="519" text-anchor="middle">SCALE NOTE: stdlib core ships; DuckDB / Polars / rustworkx are import-guarded options, same logic</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>Read it as:</b> the pipeline is a DAG, not an agent loop — no step may call a model for a decision, and no output may be hand-edited (fixes go into the engine, outputs regenerate). <b>Chiefs:</b> the CDC-shaped index follows Debezium/WAL thinking — logs, not snapshots, are the truth; the ledger follows Merkle thinking — tampering is detectable, never claimed impossible.</figcaption>
+  </figure>
+
+  <figure>
+    <h2>Figure 3 — The 7-gate algorithm (flowchart)</h2>
+    <p class="sub">Seven gates in fixed order. Each gate can only fail closed: a blocked draft, a ledger flag, a human check — never a guess, never a crash. Only a human signs COMPLETE; the system may only draft INCOMPLETE.</p>
+    <div class="figwrap">
+    <svg viewBox="0 0 920 660" role="img" aria-labelledby="fig3-title fig3-desc">
+      <title id="fig3-title">Seven gate decision flow with fail closed exits</title>
+      <desc id="fig3-desc">Seven gates from intent to sceptical bar, ending in two-horizon projection to three verdicts.</desc>
+      <defs><marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7a8d"/></marker></defs>
+      <g font-family="system-ui,sans-serif">
+        <rect x="110" y="12" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="34" font-size="16" font-weight="600" fill="#1e2a38">1 · Intent gate</text>
+        <text x="130" y="54" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">5-part test, original language · fail → NOT_APPLICABLE, []</text>
+        <line x1="360" y1="64" x2="360" y2="80" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="84" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="106" font-size="16" font-weight="600" fill="#1e2a38">2 · Identity gate</text>
+        <text x="130" y="126" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">bitemporal graph · collision → HALT to Gate 1, never merge</text>
+        <line x1="360" y1="136" x2="360" y2="152" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="156" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="178" font-size="16" font-weight="600" fill="#1e2a38">3 · Inventory gate</text>
+        <text x="130" y="198" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">every store searched · searched-and-absent = clean, unsearched = flag</text>
+        <line x1="360" y1="208" x2="360" y2="224" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="228" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="250" font-size="16" font-weight="600" fill="#1e2a38">4 · Policy gate — the 15 rules</text>
+        <text x="130" y="270" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">classify by SHAPE, never system name · novel shape → UNVERIFIED_STORE</text>
+        <line x1="360" y1="280" x2="360" y2="296" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="300" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="322" font-size="16" font-weight="600" fill="#1e2a38">5 · Writer-graph gate</text>
+        <text x="130" y="342" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">any armed feeder at audit_at → INCOMPLETE, full stop (D-Armed)</text>
+        <line x1="360" y1="352" x2="360" y2="368" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="372" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="394" font-size="16" font-weight="600" fill="#1e2a38">6 · Time-freeze gate</text>
+        <text x="130" y="414" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">per-record MAX(t ≤ audit_at) · post-audit evidence never fixes a verdict</text>
+        <line x1="360" y1="424" x2="360" y2="440" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="444" width="500" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="130" y="466" font-size="16" font-weight="600" fill="#1e2a38">7 · Sceptical bar</text>
+        <text x="130" y="486" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">flag over field dump never wins · CHECK / DISABLE rows prove nothing alone</text>
+        <line x1="360" y1="496" x2="360" y2="512" stroke="#6b7a8d" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <rect x="110" y="516" width="500" height="52" rx="6" fill="#fdeee8" stroke="#d95d39" stroke-width="2"/>
+        <text x="130" y="538" font-size="16" font-weight="600" fill="#1e2a38">Projection — rich state → 3-way verdict</text>
+        <text x="130" y="558" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">COMPLETE · INCOMPLETE · NOT_APPLICABLE + ledger flags ride along</text>
+      </g>
+      <g font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">
+        <rect x="640" y="156" width="240" height="120" rx="6" fill="#faf6f0" stroke="#e2ddd4"/>
+        <text x="652" y="180">FAIL CLOSED,</text>
+        <text x="652" y="200">AT EVERY GATE:</text>
+        <text x="652" y="224">blocked draft +</text>
+        <text x="652" y="244">structured error +</text>
+        <text x="652" y="264">ledger entry.</text>
+        <rect x="640" y="444" width="240" height="120" rx="6" fill="#faf6f0" stroke="#e2ddd4"/>
+        <text x="652" y="468">ASYMMETRY:</text>
+        <text x="652" y="488">system drafts</text>
+        <text x="652" y="508">INCOMPLETE only.</text>
+        <text x="652" y="528">A human signs</text>
+        <text x="652" y="548">COMPLETE.</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>Read it as:</b> the order is the algorithm — intent before identity before inventory before policy before writer-graph before time-freeze before scepticism. Reordering any two gates re-opens a ghost class the corpus already proved (case_15: a live flow with zero remaining records is still INCOMPLETE). <b>Execution order is different from report order:</b> steps print FINDING → REMEDIATION → VERIFICATION, but humans execute disable/block first, then purge derivatives, then mutate, then verify.</figcaption>
+  </figure>
+
+  <figure>
+    <h2>Figure 4 — The 8 pillars: every R&amp;D finding became a detector</h2>
+    <p class="sub">Nothing from the 16 chairs, the armies, or CHRONOS stayed as prose. Each finding became a failure class with a detector and an unseen-case test. A new case passes through all eight; a new failure mode must earn a ninth.</p>
+    <div class="figwrap">
+    <svg viewBox="0 0 920 480" role="img" aria-labelledby="fig4-title fig4-desc">
+      <title id="fig4-title">Eight pillars with detectors and unseen tests</title>
+      <desc id="fig4-desc">Eight rows mapping each failure pillar to its detector and unseen-case test.</desc>
+      <g font-family="system-ui,sans-serif">
+        <rect x="16" y="8" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="30" font-size="15" font-weight="600" fill="#1e2a38">A · Identity &amp; identifier multiplicity</text>
+        <text x="32" y="50" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: hash closure over every email form · test: novel ALLCAPS + old-hash record must resolve + find; novel collision HALTS</text>
+        <rect x="16" y="68" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="90" font-size="15" font-weight="600" fill="#1e2a38">B · Replication &amp; convergence</text>
+        <text x="32" y="110" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: primary-vs-replica set-diff per resource · test: row on a never-seen third replica must find</text>
+        <rect x="16" y="128" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="150" font-size="15" font-weight="600" fill="#1e2a38">C · Writer graph &amp; resurrection</text>
+        <text x="32" y="170" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: armed-path reachability at audit_at · test: novel continuous_sync connector must find; unblocked backup must find</text>
+        <rect x="16" y="188" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="210" font-size="15" font-weight="600" fill="#1e2a38">D · Retention &amp; minimisation</text>
+        <text x="32" y="230" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: field-content PII scan + retention-window check · test: novel field carrying the email must find</text>
+        <rect x="16" y="248" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="270" font-size="15" font-weight="600" fill="#1e2a38">E · Multimodal &amp; unstructured</text>
+        <text x="32" y="290" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: schema-locked extraction + second-source rule · test: novel screenshot layout extracts + cites, or escalates, never guesses</text>
+        <rect x="16" y="308" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="330" font-size="15" font-weight="600" fill="#1e2a38">F · Analytics &amp; attribution</text>
+        <text x="32" y="350" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: anonymisation checks (STRONG test partial — see report), classify by shape · test: 2-row hash-keyed lookup → DELETE, not ANONYMIZE</text>
+        <rect x="16" y="368" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="390" font-size="15" font-weight="600" fill="#1e2a38">G · Intent &amp; language</text>
+        <text x="32" y="410" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: 5-part gloss test, template cache, fluent-review lane · test: novel marketing-only wording → NOT_APPLICABLE, []</text>
+        <rect x="16" y="428" width="888" height="52" rx="6" fill="#ffffff" stroke="#e2ddd4"/>
+        <text x="32" y="450" font-size="15" font-weight="600" fill="#1e2a38">H · Shared control &amp; systemic risk</text>
+        <text x="32" y="470" font-family="ui-monospace,monospace" font-size="12" fill="#6b7a8d">detector: shared-control watcher + joint invalidation · test: one failed gate control invalidates every COMPLETE sharing it</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>Read it as:</b> this is the anti-hardcoding doctrine drawn. The engine contains no case IDs, no evidence IDs, no filename branches — only these detectors, and the 32 samples are a regression gate while the mutation suite is the generalisation gate. <b>Prevention, not just audit (specified controls, not a running enforcement):</b> guardrails H1–H7 are designed behind these detectors — delete by user_id only, tombstone nulling as a transaction, a certification gate before any “Complete” displays, restore consulting the tombstone before any write.</figcaption>
+  </figure>
+
+  <figure>
+    <h2>Figure 5 — The proof core: mathematics, not vibes</h2>
+    <p class="sub">Five formulas carry the whole system. If any one of them is violated, the verdict is wrong — which is why each is a pure function the engine computes, never a sentence a model writes.</p>
+    <div class="math">
+      <p><code>V = f(E, R, A, G)</code> — the verdict is a deterministic function of evidence, rules, audit_at, and gates (requested_at and the projection rules also feed the computation; human sign-offs are gates outside the function, not inputs to it). Same inputs twice → byte-identical outputs. No probability lives in this function.</p>
+      <p><code>state(resource) = MAX(record_time ≤ audit_at)</code> — per record, per snapshot. Row time beats inner-bundle time beats manifest time. Post-audit evidence can never repair a verdict.</p>
+      <p><code>hash(email) = SHA-256(lower(email))</code> — computed for every current and historical form, both sides lowercased at every join. One-sided lowercasing recreated the “20 unmatched” bug; the fix is a law, not a patch.</p>
+      <p><code>sort = (phase, operation rank, system_id, resource_id)</code> — string-lexicographic, total order, step numbers assigned consecutively from 1 after sorting. Report order is grading order; causal execution order is documented separately.</p>
+      <p><code>R1-FINAL: emit a verification step ONLY for an observed id</code> — unobserved canonical ids are omitted + ledger-flagged, never invented. Status never depends on verification steps, so the cost is step exactness only, disclosed and counted (27 on samples after the bitemporal linker recovered 6; see evaluation report).</p>
+    </div>
+    <ul class="inv">
+      <li><b>Invariant 1 —</b> every relevant copy received its required treatment (DELETE / REDACT / ANONYMIZE / RETAIN per the 15 rules, classified by record shape).</li>
+      <li><b>Invariant 2 —</b> no active sync, import, or restore path can recreate the data (armed feeder at audit_at = INCOMPLETE, even with zero records left).</li>
+      <li><b>Invariant 3 —</b> retained records contain only permitted identifiers (tombstone: stable user_id only; audit: five fields only; nothing else survives).</li>
+      <li><b>Invariant 4 —</b> records that must be retained remain available (retention window respected, legal hold never deleted to “clear a queue”).</li>
+    </ul>
+    <figcaption><b>Read it as:</b> COMPLETE is the conjunction of all four invariants at audit_at. Miss one and it is INCOMPLETE — there is no partial credit in the verdict, only in the remediation plan. The logic is classical, not probabilistic: a sampled token stream cannot supply the &gt;99% confidence a COMPLETE claim needs, which is exactly why models never vote on verdicts.</figcaption>
+  </figure>
+
+  <h2 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;margin:32px 0 8px">The chiefs' lenses — where each expert sits in the machine</h2>
+  <div class="cards">
+    <div class="card"><h3>Oracle / Spanner chief</h3><p><b>Bitemporality is the schema.</b> Valid time vs transaction time, deletes as superseding rows, per-record horizons. CHRONOS proved the corpus has no transaction positions — so lag vs drift is never claimed per row.</p></div>
+    <div class="card"><h3>Amazon chief</h3><p><b>Disagree, test, commit.</b> Every dissent settled by a read-only test against the 32 samples, then the 518. Where samples are silent, the safest non-destructive default commits and Horizon B records the doubt.</p></div>
+    <div class="card"><h3>J.P. Morgan chief</h3><p><b>Two-tier state machine.</b> Rich internal states (UNVERIFIED_REPLICA, ARMED_FLOW, RETAINED_BLOCKED_RECHECK_DUE…) project deterministically to three verdicts. A gate left open can never project to COMPLETE.</p></div>
+    <div class="card"><h3>Cravath chief</h3><p><b>Closed universe, two horizons.</b> Horizon A adjudicates only what is observable; Horizon B confesses everything unobservable (cache with no state table, untestable blocks, missing fields) without changing a single verdict.</p></div>
+  </div>
+
+  <h2 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;margin:32px 0 8px">Every document used — the shelf this atlas stands on</h2>
+  <p style="color:var(--muted)">From the very first decode (the auditor that proves a negative) through every refinement since. Nothing below is decoration; each doc changed a decision in the machine above.</p>
+  <div class="shelf">
+    <p><b>00 v2 Master Synthesis</b> — governing doctrine, 7 principles, binding two-layer rulings §4.</p>
+    <p><b>01 Executive Decode + Institutional Lenses</b> — the first decode: story, traps, Cravath/Oracle/Amazon/JPMorgan lenses.</p>
+    <p><b>02 Data Forensics + Solved Mysteries</b> — counts, replica divergence, flow evidence, retention regimes.</p>
+    <p><b>03 The 16 Chair Memos + Dissent Matrix</b> — all 16 brutal principles, dissents preserved, not smoothed.</p>
+    <p><b>04 Pen-and-Paper Human Audit Protocol</b> — the 7-gate spine, 7 worksheets, citation determinism, Gate Log.</p>
+    <p><b>05 32-Sample Forensic Proof Ledger</b> — archetypes A–H, sorting proof, field-walk risks, 193 steps.</p>
+    <p><b>06 Execution Blueprint</b> — 4 army units, gates G2-1…G2-5, counter-attack protocol.</p>
+    <p><b>07 CHRONOS Time-Travel Reconstruction</b> — H1–H7 mechanisms proven from bytes, physical schema law.</p>
+    <p><b>08 Technical + Demo Master Plan</b> — pillars→detectors, anti-hardcoding doctrine, stack lock, H1–H7 prevention, demo run-sheet.</p>
+    <p><b>09 Layer Placement Verdict</b> — Gemini Flash = Layer 1 only; Jev = one evaluation trial cell; neither touches a verdict.</p>
+    <p><b>10 Founder Brief</b> — story, teams' minds, gates scoreboard, honest limits.</p>
+    <p><b>Gate Review Checklist + Army A/B reports</b> — D-Cite/D-Sort/D-MissAudit locks, R1 proof walk, 518-scan evidence.</p>
+    <p><b>Web studies, official docs first</b> — DuckDB ASOF joins; XTDB/SirixDB bitemporal VT/TT; Debezium WAL CDC (log-not-snapshot); Merkle hash-chained ledgers; OpenLineage fan-out + 4-result propagation contract; Kafka/Iceberg tombstone-consult-before-write; event-sourcing replay; the zombie-prospect analogue.</p>
+  </div>
+
+  <h2 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;margin:32px 0 8px">Status, honestly — refined, not rushed</h2>
+  <p><b>Done and gated:</b> Unit 1 indexer (G2-1), Unit 2 identity + intent (G2-2), Unit 3 engine (G2-3), Unit 4 evaluation harness + independent diff re-run (status 32/32, fields exact; the analytics-amendment follow-up is running).</p>
+  <p><b>Built and gated:</b> this live demo (stdlib server + real engine in-process), Gemini Layer-1 extraction + verified cache (telemetry in the evaluation report), 16-chair counter-attack (15/15 reports; findings disclosed in the evaluation report).</p>
+  <p><b>Not started:</b> final <code>code/</code> assembly, root <code>output.csv</code> (518 rows, generated once from the gated engine), packaging audit on real artifacts, <code>log.txt</code> under a real harness, submission, 30-minute interview prep.</p>
+  <p><b>Still waiting on you:</b> the Gate Review package — strict R1 rule, trace-linkage amendment, account-slot discipline. Nothing in this atlas assumes your signature on any of them.</p>
+
+  <p class="colophon"><b>Colophon.</b> Diagram plan: layer stack (Fig 1), data flow (Fig 2), flowchart (Fig 3), grouped pillar catalog (Fig 4), proof panel (Fig 5) — each within the skill's node/arrow budgets; focal accent used on one layer per diagram at most. Palette is a custom warm-paper + terracotta set chosen for this atlas (not the skill's shipped defaults). Type: Instrument Serif for titles, system sans for node names, system mono for sublabels (Geist is not available as a web font, so system fallbacks stand in and are disclosed here). All figures are inline SVG in this single file; no external images. Source of truth for every number: the docs shelf above — if a figure and a doc disagree, the doc wins and the figure gets redrawn.</p>
+</div>
+</body>
+</html>
